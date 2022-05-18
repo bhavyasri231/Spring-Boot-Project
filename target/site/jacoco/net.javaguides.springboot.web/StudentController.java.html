@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>StudentController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">registration-login-spring-boot-security-thymeleaf</a> &gt; <a href="index.source.html" class="el_package">net.javaguides.springboot.web</a> &gt; <span class="el_source">StudentController.java</span></div><h1>StudentController.java</h1><pre class="source lang-java linenums">package net.javaguides.springboot.web;
+
+import net.javaguides.springboot.model.Student;
+import net.javaguides.springboot.service.StudentService;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@Controller
+@RequestMapping(&quot;/students&quot;)
+public class StudentController {
+
+    private StudentService studentService;
+
+<span class="fc" id="L17">    public StudentController(StudentService theStudentService){</span>
+
+<span class="fc" id="L19">        studentService = theStudentService;</span>
+<span class="fc" id="L20">    }</span>
+
+    @GetMapping(&quot;/showMyLoginPage&quot;)
+    public String showMyLoginPage()
+    {
+<span class="nc" id="L25">        return &quot;fancy-login&quot;;</span>
+    }
+
+    @GetMapping(&quot;/list&quot;)
+    public String listStudents(Model theModel){
+
+<span class="nc" id="L31">        List&lt;Student&gt; theStudent = studentService.findAll();</span>
+
+<span class="nc" id="L33">        theModel.addAttribute(&quot;students&quot;,theStudent);</span>
+
+<span class="nc" id="L35">        return &quot;list-students&quot;;</span>
+    }
+
+
+    @GetMapping(&quot;/courseslist&quot;)
+    public String CoursesList(Model theModel){
+
+<span class="nc" id="L42">        List&lt;Student&gt; theStudent = studentService.findAll();</span>
+
+<span class="nc" id="L44">        theModel.addAttribute(&quot;students&quot;,theStudent);</span>
+
+<span class="nc" id="L46">        return &quot;students/courses-form&quot;;</span>
+    }
+
+
+    @GetMapping(&quot;/showFormForAdd&quot;)
+    public String showFormForAdd(Model theModel){
+
+<span class="nc" id="L53">        Student theStudent = new Student();</span>
+
+<span class="nc" id="L55">        theModel.addAttribute(&quot;student&quot;,theStudent);</span>
+
+<span class="nc" id="L57">        return &quot;students/student-form&quot;;</span>
+    }
+
+    @GetMapping(&quot;/showFormForUpdate&quot;)
+    public String showFormForUpdate(@RequestParam(&quot;studentId&quot;) int theId, Model theModel){
+
+<span class="nc" id="L63">        Student theStudent = studentService.findById(theId);</span>
+
+<span class="nc" id="L65">        theModel.addAttribute(&quot;student&quot;,theStudent);</span>
+
+<span class="nc" id="L67">        return &quot;students/student-form&quot;;</span>
+    }
+
+    @PostMapping(&quot;/save&quot;)
+    public String saveStudent(@ModelAttribute(&quot;student&quot;) Student theStudent){
+
+<span class="nc" id="L73">        studentService.save(theStudent);</span>
+
+<span class="nc" id="L75">        return &quot;redirect:/students/list&quot;;</span>
+    }
+
+    @GetMapping(&quot;/delete&quot;)
+    public String delete(@RequestParam(&quot;studentId&quot;) int theId){
+
+<span class="nc" id="L81">        studentService.deleteById(theId);</span>
+
+<span class="nc" id="L83">        return &quot;redirect:/students/list&quot;;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
