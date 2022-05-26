@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -19,11 +20,6 @@ public class StudentController {
         studentService = theStudentService;
     }
 
-    @GetMapping("/showMyLoginPage")
-    public String showMyLoginPage()
-    {
-        return "fancy-login";
-    }
 
     @GetMapping("/list")
     public String listStudents(Model theModel){
@@ -34,18 +30,6 @@ public class StudentController {
 
         return "list-students";
     }
-
-
-    @GetMapping("/courseslist")
-    public String CoursesList(Model theModel){
-
-        List<Student> theStudent = studentService.findAll();
-
-        theModel.addAttribute("students",theStudent);
-
-        return "students/courses-form";
-    }
-
 
     @GetMapping("/showFormForAdd")
     public String showFormForAdd(Model theModel){
@@ -81,6 +65,21 @@ public class StudentController {
         studentService.deleteById(theId);
 
         return "redirect:/students/list";
+    }
+
+    @GetMapping("/courseslist")
+    public String showCourses(Principal principal, Model theModel){
+
+        Student theStudent = studentService.findByEmail(principal.getName());
+
+        if(theStudent==null){
+
+            return "students/access-denied";
+        }
+
+        theModel.addAttribute("student",theStudent);
+
+        return "students/courses-form";
     }
 
 }

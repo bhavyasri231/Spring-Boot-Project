@@ -52,4 +52,16 @@ public class StudentServiceImpl implements StudentService {
 
         studentRepository.deleteById(theId);
     }
+
+    @Override
+    public Student findByEmail(String theEmail) {
+        Optional<Student> result = studentRepository.findByEmail(theEmail);
+
+        Student theStudent = null;
+
+        if(result.isPresent()){
+            theStudent = result.get();
+        }
+        return theStudent;
+    }
 }

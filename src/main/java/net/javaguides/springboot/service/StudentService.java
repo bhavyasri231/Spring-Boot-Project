@@ -15,4 +15,5 @@ public interface StudentService {
     public void deleteById(int theId);
 
 
+    public Student findByEmail(String theEmail);
 }

@@ -60,4 +60,13 @@ class StudentServiceImplTest {
         studentService.deleteById(9);
         verify(studentRepository,times(1)).deleteById(9);
     }
+    
+    @Test
+    void findByEmail(){
+        String email = "bhavya@gmail.com";
+        Student student = new Student();
+        when(studentRepository.findByEmail(email)).thenReturn(Optional.of(student));
+        assertEquals(student, studentService.findByEmail(email));
+        
+    }
 }

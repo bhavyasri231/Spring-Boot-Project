@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -28,12 +28,11 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="tempStudent : ${students}">
-            <td th:text="${tempStudent.firstName}"/>
-            <td th:text="${tempStudent.lastName}"/>
-            <td th:text="${tempStudent.email}"/>
-            <td th:text="${tempStudent.coursesAssigned}"/>
-
+        <tr>
+            <td th:text="${student.firstName}"/>
+            <td th:text="${student.lastName}"/>
+            <td th:text="${student.email}"/>
+            <td th:text="${student.coursesAssigned}"/>
         </tr>
         </tbody>
     </table>

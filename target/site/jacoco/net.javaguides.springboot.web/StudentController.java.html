@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -14,73 +15,71 @@ public class StudentController {
 
     private StudentService studentService;
 
-<span class="fc" id="L17">    public StudentController(StudentService theStudentService){</span>
+<span class="fc" id="L18">    public StudentController(StudentService theStudentService){</span>
 
-<span class="fc" id="L19">        studentService = theStudentService;</span>
-<span class="fc" id="L20">    }</span>
+<span class="fc" id="L20">        studentService = theStudentService;</span>
+<span class="fc" id="L21">    }</span>
 
-    @GetMapping(&quot;/showMyLoginPage&quot;)
-    public String showMyLoginPage()
-    {
-<span class="nc" id="L25">        return &quot;fancy-login&quot;;</span>
-    }
 
     @GetMapping(&quot;/list&quot;)
     public String listStudents(Model theModel){
 
-<span class="nc" id="L31">        List&lt;Student&gt; theStudent = studentService.findAll();</span>
+<span class="nc" id="L27">        List&lt;Student&gt; theStudent = studentService.findAll();</span>
 
-<span class="nc" id="L33">        theModel.addAttribute(&quot;students&quot;,theStudent);</span>
+<span class="nc" id="L29">        theModel.addAttribute(&quot;students&quot;,theStudent);</span>
 
-<span class="nc" id="L35">        return &quot;list-students&quot;;</span>
+<span class="nc" id="L31">        return &quot;list-students&quot;;</span>
     }
-
-
-    @GetMapping(&quot;/courseslist&quot;)
-    public String CoursesList(Model theModel){
-
-<span class="nc" id="L42">        List&lt;Student&gt; theStudent = studentService.findAll();</span>
-
-<span class="nc" id="L44">        theModel.addAttribute(&quot;students&quot;,theStudent);</span>
-
-<span class="nc" id="L46">        return &quot;students/courses-form&quot;;</span>
-    }
-
 
     @GetMapping(&quot;/showFormForAdd&quot;)
     public String showFormForAdd(Model theModel){
 
-<span class="nc" id="L53">        Student theStudent = new Student();</span>
+<span class="nc" id="L37">        Student theStudent = new Student();</span>
 
-<span class="nc" id="L55">        theModel.addAttribute(&quot;student&quot;,theStudent);</span>
+<span class="nc" id="L39">        theModel.addAttribute(&quot;student&quot;,theStudent);</span>
 
-<span class="nc" id="L57">        return &quot;students/student-form&quot;;</span>
+<span class="nc" id="L41">        return &quot;students/student-form&quot;;</span>
     }
 
     @GetMapping(&quot;/showFormForUpdate&quot;)
     public String showFormForUpdate(@RequestParam(&quot;studentId&quot;) int theId, Model theModel){
 
-<span class="nc" id="L63">        Student theStudent = studentService.findById(theId);</span>
+<span class="nc" id="L47">        Student theStudent = studentService.findById(theId);</span>
 
-<span class="nc" id="L65">        theModel.addAttribute(&quot;student&quot;,theStudent);</span>
+<span class="nc" id="L49">        theModel.addAttribute(&quot;student&quot;,theStudent);</span>
 
-<span class="nc" id="L67">        return &quot;students/student-form&quot;;</span>
+<span class="nc" id="L51">        return &quot;students/student-form&quot;;</span>
     }
 
     @PostMapping(&quot;/save&quot;)
     public String saveStudent(@ModelAttribute(&quot;student&quot;) Student theStudent){
 
-<span class="nc" id="L73">        studentService.save(theStudent);</span>
+<span class="nc" id="L57">        studentService.save(theStudent);</span>
 
-<span class="nc" id="L75">        return &quot;redirect:/students/list&quot;;</span>
+<span class="nc" id="L59">        return &quot;redirect:/students/list&quot;;</span>
     }
 
     @GetMapping(&quot;/delete&quot;)
     public String delete(@RequestParam(&quot;studentId&quot;) int theId){
 
-<span class="nc" id="L81">        studentService.deleteById(theId);</span>
+<span class="nc" id="L65">        studentService.deleteById(theId);</span>
 
-<span class="nc" id="L83">        return &quot;redirect:/students/list&quot;;</span>
+<span class="nc" id="L67">        return &quot;redirect:/students/list&quot;;</span>
+    }
+
+    @GetMapping(&quot;/courseslist&quot;)
+    public String showCourses(Principal principal, Model theModel){
+
+<span class="nc" id="L73">        Student theStudent = studentService.findByEmail(principal.getName());</span>
+
+<span class="nc bnc" id="L75" title="All 2 branches missed.">        if(theStudent==null){</span>
+
+<span class="nc" id="L77">            return &quot;students/access-denied&quot;;</span>
+        }
+
+<span class="nc" id="L80">        theModel.addAttribute(&quot;student&quot;,theStudent);</span>
+
+<span class="nc" id="L82">        return &quot;students/courses-form&quot;;</span>
     }
 
 }

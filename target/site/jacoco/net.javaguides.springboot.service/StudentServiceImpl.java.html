@@ -52,5 +52,17 @@ public class StudentServiceImpl implements StudentService {
 
 <span class="fc" id="L53">        studentRepository.deleteById(theId);</span>
 <span class="fc" id="L54">    }</span>
+
+    @Override
+    public Student findByEmail(String theEmail) {
+<span class="fc" id="L58">        Optional&lt;Student&gt; result = studentRepository.findByEmail(theEmail);</span>
+
+<span class="fc" id="L60">        Student theStudent = null;</span>
+
+<span class="pc bpc" id="L62" title="1 of 2 branches missed.">        if(result.isPresent()){</span>
+<span class="fc" id="L63">            theStudent = result.get();</span>
+        }
+<span class="fc" id="L65">        return theStudent;</span>
+    }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
